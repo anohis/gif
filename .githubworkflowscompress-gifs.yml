@@ -1,0 +1,39 @@
+name: Compress GIFs
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**.gif'
+
+jobs:
+  compress:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install gifsicle
+        run: sudo apt-get install -y gifsicle
+
+      - name: Create compressed branch
+        run: |
+          git checkout -B compressed
+
+      - name: Compress GIFs
+        run: |
+          for f in $(find . -type f -name '*.gif'); do
+            gifsicle --scale 0.5 "$f" -o "$f"
+          done
+
+      - name: Commit and push
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "Auto-compressed GIFs" || echo "No changes"
+          git push -f origin compressed
