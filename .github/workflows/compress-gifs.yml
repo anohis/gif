@@ -26,9 +26,8 @@ jobs:
 
       - name: Compress GIFs
         run: |
-          for f in $(find . -type f -name '*.gif'); do
-            gifsicle --scale 0.5 "$f" -o "$f"
-          done
+          find . -type f -name '*.gif' -print0 | \
+            xargs -0 -I{} gifsicle --scale 0.5 "{}" -o "{}"
 
       - name: Commit and push
         run: |
