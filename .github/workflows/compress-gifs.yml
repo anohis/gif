@@ -31,7 +31,7 @@ jobs:
       - name: Compress GIFs
         run: |
           find . -type f -name '*.gif' -print0 | \
-            xargs -0 -I{} gifsicle --scale 0.5 "{}" -o "{}"
+            xargs -0 -I{} gifsicle --scale 0.25 "{}" -o "{}"
 
       - name: Commit and push
         run: |
