@@ -9,4 +9,3 @@ if not exist "%DST%" mkdir "%DST%"
 robocopy "%SRC%" "%DST%" /MOVE /E
 
 echo Done.
-pause
